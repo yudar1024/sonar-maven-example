@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.roger</groupId>
+  <artifactId>sonarresearch</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>sonarresearch</name>
+  <url>http://maven.apache.org</url>
+
+  <profiles>
+    <profile>
+      <id>issues</id>
+      <properties>
+        <sonar.analysis.mode>issues</sonar.analysis.mode>
+      </properties>
+    </profile>
+  </profiles>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <sonar.host.url>http://localhost:9000</sonar.host.url>
+    <!--<sonar.report.export.path>/report/sonar-report.json</sonar.report.export.path>-->
+    <sonar.sources>src/main</sonar.sources>
+    <sonar.tests>src/test</sonar.tests>
+    <sonar.issuesReport.html.enable>true</sonar.issuesReport.html.enable>
+    <sonar.issuesReport.json.enable>true</sonar.issuesReport.json.enable>
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.jacoco.reportPaths>${project.build.directory}/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPaths>
+    <jacoco.dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</jacoco.dataFile>
+    <sonar.language>java</sonar.language>
+    <sonar.login>e750abd28dfef5846d493bfb99b6abbd75022877</sonar.login>
+    <sonar.projectKey>com.roger:sonarresearch:roger</sonar.projectKey>
+    <sonar.projectName>sonarresearch-roger</sonar.projectName>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.3.0.603</version>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.9</version>
+        <configuration>
+          <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+          <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+          <skip>${skipTests}</skip>
+          <output>file</output>
+          <append>true</append>
+        </configuration>
+        <executions>
+          <execution>
+            <id>pre-unit-test</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <propertyName>surefireArgLine</propertyName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>post-unit-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
