@@ -5,6 +5,11 @@ public class User {
     private String username;
     private String password;
 
+    public static void main( String[] args ) {
+        System.out.println( "Hello World!" + 111111);
+        System.out.println( "Hello World!" );
+    }
+
     public String getUsername() {
         return username;
     }
